@@ -104,22 +104,102 @@
     .info-pill .lbl { font-size: 9px; letter-spacing: 2px; color: #B8935A; text-transform: uppercase; display: block; }
     .info-pill .val { font-size: 12px; color: #E8EEF5; display: block; margin-top: 2px; }
 
-    /* ── NAV ── */
-    nav {
-      display: flex; overflow-x: auto;
+    /* ── TOPBAR FIXE ── */
+    .topbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(5,12,26,0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid #1A3050;
-      -webkit-overflow-scrolling: touch;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 20px; height: 52px;
     }
-    nav button {
+    .topbar-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 13px; color: #B8935A; letter-spacing: 2px;
+    }
+    .burger {
       background: none; border: none; cursor: pointer;
+      display: flex; flex-direction: column; gap: 5px; padding: 6px;
+    }
+    .burger span {
+      display: block; width: 22px; height: 2px;
+      background: #E8EEF5; border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .burger.open span:nth-child(2) { opacity: 0; }
+    .burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Drawer menu */
+    .drawer {
+      position: fixed; top: 52px; left: 0; right: 0; z-index: 99;
+      background: rgba(6,14,30,0.98);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid #1A3050;
+      transform: translateY(-110%);
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      padding: 8px 0 16px;
+    }
+    .drawer.open { transform: translateY(0); }
+
+    .drawer-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 24px; cursor: pointer;
       font-family: 'Source Serif 4', serif;
-      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
-      padding: 14px 14px; white-space: nowrap;
-      border-bottom: 2px solid transparent;
-      color: rgba(232,238,245,0.35);
+      font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase;
+      color: rgba(232,238,245,0.5);
+      border-left: 3px solid transparent;
       transition: all 0.2s;
     }
-    nav button.active { color: #B8935A; border-bottom-color: #B8935A; }
+    .drawer-item:hover { color: #E8EEF5; background: rgba(255,255,255,0.03); }
+    .drawer-item.active {
+      color: #B8935A;
+      border-left-color: #B8935A;
+      background: rgba(184,147,90,0.06);
+    }
+    .drawer-item.tarif-item {
+      color: #B8935A;
+      background: rgba(184,147,90,0.08);
+      border-left-color: #B8935A;
+    }
+    .drawer-item.tarif-item.active {
+      background: rgba(184,147,90,0.15);
+    }
+    .drawer-item .arrow { font-size: 11px; opacity: 0.5; }
+    .drawer-item.active .arrow { opacity: 1; color: #B8935A; }
+
+    /* Onglets sous le header (style pills) */
+    .tab-bar {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      padding: 20px 0 0; margin-bottom: 0;
+    }
+    .tab-pill {
+      padding: 8px 16px; border-radius: 20px; cursor: pointer;
+      font-family: 'Source Serif 4', serif;
+      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+      border: 1px solid #1A3050;
+      background: #0A1628; color: rgba(232,238,245,0.4);
+      transition: all 0.2s; white-space: nowrap;
+    }
+    .tab-pill:hover { border-color: rgba(184,147,90,0.4); color: rgba(232,238,245,0.7); }
+    .tab-pill.active {
+      background: rgba(184,147,90,0.15);
+      border-color: #B8935A; color: #B8935A;
+    }
+    .tab-pill.tarif-pill {
+      background: rgba(184,147,90,0.1);
+      border-color: rgba(184,147,90,0.5);
+      color: #B8935A; font-weight: 600;
+    }
+    .tab-pill.tarif-pill.active {
+      background: rgba(184,147,90,0.25);
+      border-color: #B8935A;
+    }
+
+    /* Push content below topbar */
+    .wrap { padding-top: 68px; }
 
     /* ── SECTIONS ── */
     .section { padding-top: 28px; display: none; }
@@ -330,10 +410,10 @@
     }
     .formateur-header { display: flex; align-items: center; gap: 18px; margin-bottom: 22px; }
     .formateur-avatar {
-      width: 56px; height: 56px; border-radius: 50%; flex-shrink: 0;
-      background: linear-gradient(135deg, #B8935A, #4A90C4);
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Playfair Display', serif; font-size: 20px; color: #050C1A; font-weight: 700;
+      width: 80px; height: 80px; border-radius: 50%; flex-shrink: 0;
+      border: 2px solid #B8935A;
+      overflow: hidden;
+      object-fit: cover;
     }
     .formateur-header .nom { font-family: 'Playfair Display', serif; font-size: 18px; color: #E8EEF5; font-weight: 700; }
     .formateur-header .role { font-size: 12px; color: #B8935A; margin-top: 4px; letter-spacing: 1px; }
@@ -371,6 +451,27 @@
 
 </head>
 <body>
+
+  <!-- ── TOPBAR FIXE ── -->
+
+  <div class="topbar">
+    <div class="topbar-logo">A4P Mental</div>
+    <button class="burger" id="burger" onclick="toggleDrawer()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <!-- ── DRAWER ── -->
+
+  <div class="drawer" id="drawer">
+    <div class="drawer-item active" id="d-programme" onclick="showSection('programme',this)">Programme <span class="arrow">→</span></div>
+    <div class="drawer-item" id="d-differenciants" onclick="showSection('differenciants',this)">Différenciants <span class="arrow">→</span></div>
+    <div class="drawer-item" id="d-inclus" onclick="showSection('inclus',this)">Inclus <span class="arrow">→</span></div>
+    <div class="drawer-item tarif-item" id="d-tarif" onclick="showSection('tarif',this)">💰 Tarif <span class="arrow">→</span></div>
+    <div class="drawer-item" id="d-formateur" onclick="showSection('formateur',this)">Formateur <span class="arrow">→</span></div>
+  </div>
+  <div id="overlay" onclick="closeDrawer()" style="display:none;position:fixed;inset:0;z-index:98;background:rgba(0,0,0,0.4)"></div>
+
 <div class="wrap">
 
   <!-- ── HEADER ── -->
@@ -420,18 +521,15 @@
 
   </div>
 
-  <!-- ── NAV ── -->
+  <!-- ── TAB PILLS ── -->
 
-  <nav>
-    <button class="active" onclick="showSection('programme', this)">Programme</button>
-    <button onclick="showSection('differenciants', this)">Différenciants</button>
-    <button onclick="showSection('inclus', this)">Inclus</button>
-    <button onclick="showSection('tarif', this)">Tarif</button>
-    <button onclick="showSection('formateur', this)">Formateur</button>
-  </nav>
-
-  <!-- ── PROGRAMME ── -->
-
+  <div class="tab-bar">
+    <div class="tab-pill active" id="t-programme" onclick="showSection('programme',this)">Programme</div>
+    <div class="tab-pill" id="t-differenciants" onclick="showSection('differenciants',this)">Différenciants</div>
+    <div class="tab-pill" id="t-inclus" onclick="showSection('inclus',this)">Inclus</div>
+    <div class="tab-pill tarif-pill" id="t-tarif" onclick="showSection('tarif',this)">💰 Tarif</div>
+    <div class="tab-pill" id="t-formateur" onclick="showSection('formateur',this)">Formateur</div>
+  </div> -->
   <div id="programme" class="section active">
     <div class="jour-switcher">
       <button class="jour-btn active-gold" id="btn-j1" onclick="showJour(1)">Jour 1 — Fondations</button>
@@ -623,7 +721,8 @@
     <span class="section-label">Votre formateur</span>
     <div class="formateur-card">
       <div class="formateur-header">
-        <div class="formateur-avatar">AG</div>
+        <img class="formateur-avatar" src="photo-alexandre.png" alt="Alexandre Griffet"
+          onerror="this.outerHTML='<div class=\'formateur-avatar\' style=\'background:linear-gradient(135deg,#B8935A,#4A90C4);display:flex;align-items:center;justify-content:center;font-family:Playfair Display,serif;font-size:20px;color:#050C1A;font-weight:700\'>AG</div>'" />
         <div>
           <div class="nom">Alexandre Griffet</div>
           <div class="role">Architecte Mental · Fondateur A4P Mental</div>
@@ -843,11 +942,50 @@ function showJour(j) {
   }
 }
 
-function showSection(id, btn) {
+function toggleDrawer() {
+  const burger = document.getElementById('burger');
+  const drawer = document.getElementById('drawer');
+  const overlay = document.getElementById('overlay');
+  const isOpen = drawer.classList.contains('open');
+  if (isOpen) {
+    closeDrawer();
+  } else {
+    drawer.classList.add('open');
+    burger.classList.add('open');
+    overlay.style.display = 'block';
+  }
+}
+
+function closeDrawer() {
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('burger').classList.remove('open');
+  document.getElementById('overlay').style.display = 'none';
+}
+
+function showSection(id, el) {
+  // Hide all sections
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
+
+  // Reset all drawer items
+  document.querySelectorAll('.drawer-item').forEach(d => {
+    d.classList.remove('active');
+    if (d.id === 'd-tarif') d.classList.add('tarif-item');
+  });
+  // Reset all tab pills
+  document.querySelectorAll('.tab-pill').forEach(p => {
+    p.classList.remove('active');
+  });
+
+  // Activate drawer item
+  const dItem = document.getElementById('d-' + id);
+  if (dItem) dItem.classList.add('active');
+
+  // Activate tab pill
+  const tItem = document.getElementById('t-' + id);
+  if (tItem) tItem.classList.add('active');
+
+  closeDrawer();
 }
 
 // Build modules on load
